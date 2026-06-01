@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - uses: actions/checkout@v4
 
-        - name: Byg docker image
-          run: |
-            docker build -t "hello-python" ./HelloWorldDocker
+            - name: Byg docker image
+              run: docker build -t "hello-python" ./HelloWorldDocker
