@@ -1,19 +1,31 @@
 name: Byg docker image
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
     build:
         runs-on: ubuntu-latest
-        
+
+        permissions:
+          contents: read
+          packages: write
+
         steps:
             - uses: actions/checkout@v4
 
-            - name: Byg docker image
-              run: docker build -t "hello-python" ./HelloWorldDocker
+            - name: Log in to GitHub Container Registry
+              run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            - name: Build Docker image
+              run: docker build -t ghcr.io/${{ github.repository_owner }}/hello-kubernetes:latest ./HelloWorldKubernetes
+             #run: docker build -t hello-python ./HelloWorldDocker
+            
+            - name: Run Docker image (detached mode)
+              run: docker run -d ghcr.io/${{ github.repository_owner }}/hello-kubernetes:latest
+             #run: docker run hello-python
 
-            - name: Test mit image
-              run: docker run "hello-python"
+            - name: Push Docker image
+              run: docker push ghcr.io/${{ github.repository_owner }}/hello-kubernetes:latest
