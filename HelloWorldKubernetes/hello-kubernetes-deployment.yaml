@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-python
+  name: hello-kubernetes
 spec:
-  replicas: 1 
+  replicas: 1
   selector:
     matchLabels:
-      app: hello-python
+      app: hello-kubernetes
   template:
     metadata:
       labels:
-        app: hello-python
+        app: hello-kubernetes
     spec:
       containers:
-      - name: hello-python
-        image: ghcr.io/bumsar1/hello-python:latest
-        imagePullPolicy: IfNotPresent
+        - name: hello-kubernetes
+          image: ghcr.io/bumsar1/hello-kubernetes:latest
+          imagePullPolicy: Always
